@@ -128,6 +128,24 @@ namespace ET
             OpcodeHelper.LogMsg(self.DomainZone(), message);
             NetServices.Instance.SendMessage(self.ServiceId, self.Id, actorId, message);
         }
+
+        public static async ETTask Disconnect(this Session self)
+        {
+            // 一秒后断开链接 Session
+            if(self == null || self.IsDisposed)
+            {
+                return;
+            }
+            
+            long instanceId = self.InstanceId;
+
+            await TimerComponent.Instance.WaitAsync(1000);
+
+            if (self.InstanceId == instanceId)
+            {
+                self.Dispose();
+            }
+        }
     }
 
     [ChildOf]

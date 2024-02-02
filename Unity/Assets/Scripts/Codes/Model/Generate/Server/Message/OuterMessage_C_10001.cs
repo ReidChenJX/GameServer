@@ -315,46 +315,6 @@ namespace ET
 
 	}
 
-	[ResponseType(nameof(R2C_Login))]
-	[Message(OuterMessage.C2R_Login)]
-	[ProtoContract]
-	public partial class C2R_Login: ProtoObject, IRequest
-	{
-		[ProtoMember(1)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(2)]
-		public string Account { get; set; }
-
-		[ProtoMember(3)]
-		public string Password { get; set; }
-
-	}
-
-	[Message(OuterMessage.R2C_Login)]
-	[ProtoContract]
-	public partial class R2C_Login: ProtoObject, IResponse
-	{
-		[ProtoMember(1)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(2)]
-		public int Error { get; set; }
-
-		[ProtoMember(3)]
-		public string Message { get; set; }
-
-		[ProtoMember(4)]
-		public string Address { get; set; }
-
-		[ProtoMember(5)]
-		public long Key { get; set; }
-
-		[ProtoMember(6)]
-		public long GateId { get; set; }
-
-	}
-
 	[ResponseType(nameof(G2C_LoginGate))]
 	[Message(OuterMessage.C2G_LoginGate)]
 	[ProtoContract]
@@ -479,6 +439,89 @@ namespace ET
 
 	}
 
+	[ResponseType(nameof(R2C_Login))]
+	[Message(OuterMessage.C2R_Login)]
+	[ProtoContract]
+	public partial class C2R_Login: ProtoObject, IRequest
+	{
+// 登录验证
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public string AccountName { get; set; }
+
+		[ProtoMember(3)]
+		public string Password { get; set; }
+
+	}
+
+	[Message(OuterMessage.R2C_Login)]
+	[ProtoContract]
+	public partial class R2C_Login: ProtoObject, IResponse
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int Error { get; set; }
+
+		[ProtoMember(3)]
+		public string Message { get; set; }
+
+		[ProtoMember(4)]
+		public long AccountId { get; set; }
+
+	}
+
+	[ResponseType(nameof(R2C_LoginGate))]
+	[Message(OuterMessage.C2R_LoginGate)]
+	[ProtoContract]
+	public partial class C2R_LoginGate: ProtoObject, IRequest
+	{
+// 验证成功后获取Gate
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(4)]
+		public long AccountId { get; set; }
+
+	}
+
+	[Message(OuterMessage.R2C_LoginGate)]
+	[ProtoContract]
+	public partial class R2C_LoginGate: ProtoObject, IResponse
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int Error { get; set; }
+
+		[ProtoMember(3)]
+		public string Message { get; set; }
+
+		[ProtoMember(4)]
+		public string Address { get; set; }
+
+		[ProtoMember(5)]
+		public long Key { get; set; }
+
+		[ProtoMember(6)]
+		public long GateId { get; set; }
+
+	}
+
+	[Message(OuterMessage.R2C_Disconnect)]
+	[ProtoContract]
+	public partial class R2C_Disconnect: ProtoObject, IMessage
+	{
+// Realm 发出，客户端下线通知
+		[ProtoMember(1)]
+		public int Error { get; set; }
+
+	}
+
 	public static class OuterMessage
 	{
 		 public const ushort HttpGetRouterResponse = 10002;
@@ -504,16 +547,19 @@ namespace ET
 		 public const ushort G2C_Test = 10022;
 		 public const ushort C2M_Reload = 10023;
 		 public const ushort M2C_Reload = 10024;
-		 public const ushort C2R_Login = 10025;
-		 public const ushort R2C_Login = 10026;
-		 public const ushort C2G_LoginGate = 10027;
-		 public const ushort G2C_LoginGate = 10028;
-		 public const ushort G2C_TestHotfixMessage = 10029;
-		 public const ushort C2M_TestRobotCase = 10030;
-		 public const ushort M2C_TestRobotCase = 10031;
-		 public const ushort C2M_TransferMap = 10032;
-		 public const ushort M2C_TransferMap = 10033;
-		 public const ushort C2G_Benchmark = 10034;
-		 public const ushort G2C_Benchmark = 10035;
+		 public const ushort C2G_LoginGate = 10025;
+		 public const ushort G2C_LoginGate = 10026;
+		 public const ushort G2C_TestHotfixMessage = 10027;
+		 public const ushort C2M_TestRobotCase = 10028;
+		 public const ushort M2C_TestRobotCase = 10029;
+		 public const ushort C2M_TransferMap = 10030;
+		 public const ushort M2C_TransferMap = 10031;
+		 public const ushort C2G_Benchmark = 10032;
+		 public const ushort G2C_Benchmark = 10033;
+		 public const ushort C2R_Login = 10034;
+		 public const ushort R2C_Login = 10035;
+		 public const ushort C2R_LoginGate = 10036;
+		 public const ushort R2C_LoginGate = 10037;
+		 public const ushort R2C_Disconnect = 10038;
 	}
 }

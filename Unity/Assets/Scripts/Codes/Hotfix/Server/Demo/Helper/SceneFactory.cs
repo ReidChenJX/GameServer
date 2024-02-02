@@ -28,6 +28,7 @@ namespace ET.Server
                     break;
                 case SceneType.Realm:
                     scene.AddComponent<NetServerComponent, IPEndPoint>(startSceneConfig.InnerIPOutPort);
+                    scene.AddComponent<AccountSessionsComponent>();
                     break;
                 case SceneType.Gate:
                     scene.AddComponent<NetServerComponent, IPEndPoint>(startSceneConfig.InnerIPOutPort);
@@ -50,6 +51,9 @@ namespace ET.Server
                     break;
                 case SceneType.BenchmarkClient:
                     scene.AddComponent<BenchmarkClientComponent>();
+                    break;
+                case SceneType.LoginCenter:
+                    scene.AddComponent<LoginInfoRecordComponent>();
                     break;
             }
 

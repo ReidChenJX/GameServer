@@ -6,12 +6,14 @@ namespace ET.Client
 {
     public static class LoginHelper
     {
-        public static async ETTask Login(Scene clientScene, string account, string password)
+        public static async ETTask<int> Login(Scene clientScene, string account, string password)
         {
             try
             {
                 // 创建一个ETModel层的Session
                 clientScene.RemoveComponent<RouterAddressComponent>();
+                clientScene.RemoveComponent<NetClientComponent>();
+                clientScene.RemoveComponent<SessionComponent>();
                 // 获取路由跟realmDispatcher地址
                 RouterAddressComponent routerAddressComponent = clientScene.GetComponent<RouterAddressComponent>();
                 if (routerAddressComponent == null)
@@ -23,20 +25,25 @@ namespace ET.Client
                 }
                 IPEndPoint realmAddress = routerAddressComponent.GetRealmAddress(account);
                 
-                R2C_Login r2CLogin;
-                using (Session session = await RouterHelper.CreateRouterSession(clientScene, realmAddress))
-                {
-                    r2CLogin = (R2C_Login) await session.Call(new C2R_Login() { Account = account, Password = password });
-                }
+                // 登录验证
+                Session session = await RouterHelper.CreateRouterSession(clientScene, realmAddress);
+                R2C_Login r2CLogin = (R2C_Login) await session.Call(new C2R_Login() { AccountName = account, Password = password });
+                long accountId = r2CLogin.AccountId;
+                
+                
+                
+                
+                
+                
 
                 // 创建一个gate Session,并且保存到SessionComponent中
-                Session gateSession = await RouterHelper.CreateRouterSession(clientScene, NetworkHelper.ToIPEndPoint(r2CLogin.Address));
-                clientScene.AddComponent<SessionComponent>().Session = gateSession;
-				
-                G2C_LoginGate g2CLoginGate = (G2C_LoginGate)await gateSession.Call(
-                    new C2G_LoginGate() { Key = r2CLogin.Key, GateId = r2CLogin.GateId});
-
-                Log.Debug("登陆gate成功!");
+                // Session gateSession = await RouterHelper.CreateRouterSession(clientScene, NetworkHelper.ToIPEndPoint(r2CLogin.Address));
+                // clientScene.AddComponent<SessionComponent>().Session = gateSession;
+				            //
+                // G2C_LoginGate g2CLoginGate = (G2C_LoginGate)await gateSession.Call(
+                //     new C2G_LoginGate() { Key = r2CLogin.Key, GateId = r2CLogin.GateId});
+                //
+                // Log.Debug("登陆gate成功!");
 
                 await EventSystem.Instance.PublishAsync(clientScene, new EventType.LoginFinish());
             }
@@ -44,6 +51,9 @@ namespace ET.Client
             {
                 Log.Error(e);
             }
-        } 
+
+            return ErrorCode.ERR_Success;
+        }
+        
     }
 }
