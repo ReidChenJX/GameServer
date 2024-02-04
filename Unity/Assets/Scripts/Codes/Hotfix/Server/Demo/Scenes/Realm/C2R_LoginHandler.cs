@@ -29,6 +29,7 @@ namespace ET.Server
                     string passwdMD5 = MD5Helper.StringMD5(request.Password);
                     var accountInfoList = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone())
                             .Query<Account>(d => d.AccountName.Equals(request.AccountName));
+                    
                     Account account = null;
                     if (accountInfoList != null && accountInfoList.Count > 0)
                     {
@@ -90,11 +91,18 @@ namespace ET.Server
                         return;
                     }
                     
+                    session.DomainScene().GetComponent<AccountSessionsComponent>().Add(account.Id, session.InstanceId);
+                    // 登录请求持续一定时间后，自动断开
+                    session.AddComponent<AccountCheckOutTimeComponent, long>(account.Id);
                     
+                    string token = TimeHelper.ServerNow().ToString() + RandomGenerator.RandomNumber(int.MinValue, int.MaxValue).ToString();
+                    session.DomainScene().GetComponent<TokenComponent>().Remove(account.Id);
+                    session.DomainScene().GetComponent<TokenComponent>().Add(account.Id, token);
                     
+                    response.AccountId = account.Id;
+                    response.Token = token;
+                    account?.Dispose();
                 }
-
-                await ETTask.CompletedTask;
 
                 // // 随机分配一个Gate
                 // StartSceneConfig config = RealmGateAddressHelper.GetGate(session.DomainZone());

@@ -472,6 +472,9 @@ namespace ET
 		[ProtoMember(4)]
 		public long AccountId { get; set; }
 
+		[ProtoMember(5)]
+		public string Token { get; set; }
+
 	}
 
 	[ResponseType(nameof(R2C_LoginGate))]
@@ -522,6 +525,124 @@ namespace ET
 
 	}
 
+	[Message(OuterMessage.ServerInfoProto)]
+	[ProtoContract]
+	public partial class ServerInfoProto: ProtoObject
+	{
+		[ProtoMember(1)]
+		public int Id { get; set; }
+
+		[ProtoMember(2)]
+		public int Status { get; set; }
+
+		[ProtoMember(3)]
+		public string ServerName { get; set; }
+
+	}
+
+	[ResponseType(nameof(R2C_GetServerInfo))]
+	[Message(OuterMessage.C2R_GetServerInfo)]
+	[ProtoContract]
+	public partial class C2R_GetServerInfo: ProtoObject, IRequest
+	{
+// 获取区服数据
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public string Token { get; set; }
+
+		[ProtoMember(3)]
+		public long AccountId { get; set; }
+
+	}
+
+	[Message(OuterMessage.R2C_GetServerInfo)]
+	[ProtoContract]
+	public partial class R2C_GetServerInfo: ProtoObject, IResponse
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int Error { get; set; }
+
+		[ProtoMember(3)]
+		public string Message { get; set; }
+
+		[ProtoMember(4)]
+		public List<ServerInfoProto> ServerInfoList { get; set; }
+
+	}
+
+	[Message(OuterMessage.RoleInfoProto)]
+	[ProtoContract]
+	public partial class RoleInfoProto: ProtoObject
+	{
+		[ProtoMember(1)]
+		public long Id { get; set; }
+
+		[ProtoMember(2)]
+		public string Name { get; set; }
+
+		[ProtoMember(3)]
+		public int State { get; set; }
+
+		[ProtoMember(4)]
+		public long AccountId { get; set; }
+
+		[ProtoMember(5)]
+		public long LastLoginTime { get; set; }
+
+		[ProtoMember(6)]
+		public long CreateTime { get; set; }
+
+		[ProtoMember(7)]
+		public int ServerId { get; set; }
+
+	}
+
+	[ResponseType(nameof(R2C_CreateRole))]
+	[Message(OuterMessage.C2R_CreateRole)]
+	[ProtoContract]
+	public partial class C2R_CreateRole: ProtoObject, IRequest
+	{
+// Client To Realm 创建角色
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public string Token { get; set; }
+
+		[ProtoMember(3)]
+		public long AccountId { get; set; }
+
+		[ProtoMember(4)]
+		public string Name { get; set; }
+
+		[ProtoMember(5)]
+		public int ServerId { get; set; }
+
+	}
+
+	[Message(OuterMessage.R2C_CreateRole)]
+	[ProtoContract]
+	public partial class R2C_CreateRole: ProtoObject, IResponse
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int Error { get; set; }
+
+		[ProtoMember(3)]
+		public string Message { get; set; }
+
+		[ProtoMember(4)]
+		public RoleInfoProto RoleInfo { get; set; }
+
+	}
+
 	public static class OuterMessage
 	{
 		 public const ushort HttpGetRouterResponse = 10002;
@@ -561,5 +682,11 @@ namespace ET
 		 public const ushort C2R_LoginGate = 10036;
 		 public const ushort R2C_LoginGate = 10037;
 		 public const ushort R2C_Disconnect = 10038;
+		 public const ushort ServerInfoProto = 10039;
+		 public const ushort C2R_GetServerInfo = 10040;
+		 public const ushort R2C_GetServerInfo = 10041;
+		 public const ushort RoleInfoProto = 10042;
+		 public const ushort C2R_CreateRole = 10043;
+		 public const ushort R2C_CreateRole = 10044;
 	}
 }

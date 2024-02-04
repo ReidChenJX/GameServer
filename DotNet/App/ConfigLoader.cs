@@ -16,6 +16,7 @@ namespace ET.Server
                 "StartProcessConfigCategory", 
                 "StartSceneConfigCategory", 
                 "StartZoneConfigCategory",
+                "ServerInfoConfigCategory",
             };
             HashSet<Type> configTypes = EventSystem.Instance.GetTypes(typeof (ConfigAttribute));
             foreach (Type configType in configTypes)

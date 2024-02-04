@@ -233,6 +233,7 @@ message R2C_Login // IResponse
 	int32 Error = 2;
 	string Message = 3;
 	int64 AccountId = 4;
+	string Token = 5;
 }
 
 //ResponseType R2C_LoginGate
@@ -257,4 +258,61 @@ message R2C_Disconnect // IMessage
 {
     // Realm 发出，客户端下线通知
 	int32 Error = 1;
+}
+
+message ServerInfoProto
+{
+	int32 Id = 1;
+	int32 Status = 2;
+	string ServerName = 3;
+}
+
+
+//ResponseType R2C_GetServerInfo
+message C2R_GetServerInfo // IRequest
+{
+    // 获取区服数据
+	int32 RpcId = 1;
+	string Token = 2;
+	int64 AccountId = 3;
+
+}
+
+message R2C_GetServerInfo // IResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+	repeated ServerInfoProto ServerInfoList = 4;
+}
+
+message RoleInfoProto
+{
+	int64 Id = 1;
+	string Name = 2;
+	int32 State = 3;
+	int64 AccountId = 4;
+	int64 LastLoginTime = 5;
+	int64 CreateTime = 6;
+	int32 ServerId = 7;
+}
+
+//ResponseType R2C_CreateRole
+message C2R_CreateRole // IRequest
+{
+    // Client To Realm 创建角色
+	int32 RpcId = 1;
+	string Token = 2;
+	int64 AccountId = 3;
+	string Name = 4;
+	int32 ServerId = 5;
+	
+}
+
+message R2C_CreateRole // IResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+	RoleInfoProto RoleInfo = 4;
 }

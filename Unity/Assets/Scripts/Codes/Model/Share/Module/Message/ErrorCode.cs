@@ -26,5 +26,8 @@ namespace ET
         // Role 错误
         public const int ERR_RoleNameNull = 200010;             // Role Name 字段为空
         public const int ERR_RoleNameSame = 200011;             // Role 重复
+        
+        // 未定义错误
+        public const int ERR_OERR = 200100;                     
     }
 }
