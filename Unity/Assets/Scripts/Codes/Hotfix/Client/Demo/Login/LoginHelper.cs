@@ -109,7 +109,7 @@ namespace ET.Client
                     {
                         AccountId = clientScene.GetComponent<AccountInfoComponent>().AccountId,
                         Token = clientScene.GetComponent<AccountInfoComponent>().Token,
-                        Name = clientScene.GetComponent<AccountInfoComponent>().Name,
+                        Name = clientScene.GetComponent<AccountInfoComponent>().Name,       // AccountInfo Name 改为LoginName 考虑手机号登录，正在的角色Name 应在次函数中输入
                         ServerId = clientScene.GetComponent<ServerInfoComponent>().CurrentServerId
                     });
                 
