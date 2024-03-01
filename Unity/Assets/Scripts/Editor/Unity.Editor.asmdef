@@ -4,6 +4,9 @@
     "references": [
         "Unity.ThirdParty",
         "Unity.Core",
+        "Unity.ScriptableBuildPipeline",
+        "Unity.ScriptableBuildPipeline.Editor",
+        "YooAsset.Editor",
         "Unity.Loader",
         "HybridCLR.Runtime",
         "HybridCLR.Editor"

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+
 namespace ET.Client
 {
     [Invoke]
@@ -66,6 +67,7 @@ namespace ET.Client
                         output[configType] = v.bytes;
                     }
                 }
+                
             }
 
             return output;

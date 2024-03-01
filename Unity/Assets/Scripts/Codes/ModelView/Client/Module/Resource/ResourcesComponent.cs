@@ -582,4 +582,8 @@ namespace ET.Client
         // 缓存包依赖，不用每次计算
         public readonly Dictionary<string, string[]> DependenciesCache = new Dictionary<string, string[]>();
     }
+    
+    
+    
+    
 }

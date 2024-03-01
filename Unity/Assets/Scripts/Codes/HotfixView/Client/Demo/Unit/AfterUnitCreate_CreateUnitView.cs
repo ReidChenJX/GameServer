@@ -12,6 +12,7 @@ namespace ET.Client
             // 这里可以改成异步加载，demo就不搞了
             GameObject bundleGameObject = (GameObject)ResourcesComponent.Instance.GetAsset("Unit.unity3d", "Unit");
             GameObject prefab = bundleGameObject.Get<GameObject>("Skeleton");
+            // GameObject prefab = await ResComponent.Instance.LoadAssetAsync<GameObject>("Skeleton");
 	        
             GameObject go = UnityEngine.Object.Instantiate(prefab, GlobalComponent.Instance.Unit, true);
             go.transform.position = unit.Position;
