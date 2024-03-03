@@ -6,7 +6,7 @@ namespace ET.Client
         {
             self.Token = string.Empty;
             self.AccountId = 0;
-            self.Name = string.Empty;
+            self.LoginName = string.Empty;
             self.Key = string.Empty;
 
         }

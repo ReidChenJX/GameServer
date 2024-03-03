@@ -6,7 +6,7 @@ namespace ET.Client
 {
     public static class LoginHelper
     {
-        public static async ETTask<int> Login(Scene clientScene, string account, string password)
+        public static async ETTask<int> Login(Scene clientScene, string loginName, string password)
         {
             try
             {
@@ -24,11 +24,11 @@ namespace ET.Client
                     clientScene.AddComponent<NetClientComponent, AddressFamily>(routerAddressComponent.RouterManagerIPAddress.AddressFamily);
                 }
 
-                IPEndPoint realmAddress = routerAddressComponent.GetRealmAddress(account);
+                IPEndPoint realmAddress = routerAddressComponent.GetRealmAddress(loginName);
 
                 // 登录验证
                 Session session = await RouterHelper.CreateRouterSession(clientScene, realmAddress);
-                R2C_Login r2CLogin = (R2C_Login)await session.Call(new C2R_Login() { AccountName = account, Password = password });
+                R2C_Login r2CLogin = (R2C_Login)await session.Call(new C2R_Login() { AccountName = loginName, Password = password });
 
                 if (r2CLogin.Error != ErrorCode.ERR_Success)
                 {
@@ -39,7 +39,7 @@ namespace ET.Client
 
                 clientScene.GetComponent<AccountInfoComponent>().Token = r2CLogin.Token;
                 clientScene.GetComponent<AccountInfoComponent>().AccountId = r2CLogin.AccountId;
-                clientScene.GetComponent<AccountInfoComponent>().Name = account;
+                clientScene.GetComponent<AccountInfoComponent>().LoginName = loginName;
 
                 // 登录返回
                 if (r2CLogin.Error != ErrorCode.ERR_Success)
@@ -109,7 +109,7 @@ namespace ET.Client
                     {
                         AccountId = clientScene.GetComponent<AccountInfoComponent>().AccountId,
                         Token = clientScene.GetComponent<AccountInfoComponent>().Token,
-                        Name = clientScene.GetComponent<AccountInfoComponent>().Name,       // AccountInfo Name 改为LoginName 考虑手机号登录，正在的角色Name 应在次函数中输入
+                        Name = clientScene.GetComponent<AccountInfoComponent>().LoginName,
                         ServerId = clientScene.GetComponent<ServerInfoComponent>().CurrentServerId
                     });
                 

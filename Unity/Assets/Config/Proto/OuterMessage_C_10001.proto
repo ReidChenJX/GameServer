@@ -223,7 +223,7 @@ message C2R_Login // IRequest
 {
     // 登录验证
     int32 RpcId = 1;
-    string  AccountName = 2;  // 帐号
+    string  LoginName = 2;  // 帐号
     string  Password = 3;  // 密码
 }
 
