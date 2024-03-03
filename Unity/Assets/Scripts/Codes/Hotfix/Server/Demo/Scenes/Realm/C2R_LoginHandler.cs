@@ -24,11 +24,11 @@ namespace ET.Server
             using (session.AddComponent<SessionLockComponent>())
             {
                 // 数据库请求锁定
-                using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoginAccount, request.AccountName.GetHashCode()))
+                using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoginAccount, request.LoginName.GetHashCode()))
                 {
                     string passwdMD5 = MD5Helper.StringMD5(request.Password);
                     var accountInfoList = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone())
-                            .Query<Account>(d => d.AccountName.Equals(request.AccountName));
+                            .Query<Account>(d => d.AccountName.Equals(request.LoginName));
                     
                     Account account = null;
                     if (accountInfoList != null && accountInfoList.Count > 0)
@@ -57,7 +57,7 @@ namespace ET.Server
                         Log.Debug("数据库无数据，自动创建。");
                         // Session 也是组件，新建的account 需要挂载在其下，用于记录，入库账户信息
                         account = session.AddChild<Account>();
-                        account.AccountName = request.AccountName;
+                        account.AccountName = request.LoginName;
                         account.PassWord = passwdMD5;
                         account.CreateTime = TimeHelper.ServerNow();
                         account.AccountType = (int)AccountType.General;

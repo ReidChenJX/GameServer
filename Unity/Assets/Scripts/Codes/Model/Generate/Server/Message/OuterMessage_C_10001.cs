@@ -449,7 +449,7 @@ namespace ET
 		public int RpcId { get; set; }
 
 		[ProtoMember(2)]
-		public string AccountName { get; set; }
+		public string LoginName { get; set; }
 
 		[ProtoMember(3)]
 		public string Password { get; set; }
