@@ -274,7 +274,7 @@ namespace ET
 		public int RpcId { get; set; }
 
 		[ProtoMember(2)]
-		public string Account { get; set; }
+		public long AccountId { get; set; }
 
 	}
 

@@ -156,22 +156,6 @@ message M2C_Reload // IResponse
 	string Message = 3;
 }
 
-//ResponseType G2C_LoginGate
-message C2G_LoginGate // IRequest
-{
-	int32 RpcId = 1;
-	int64 Key = 2;  // 帐号
-	int64 GateId = 3;
-}
-
-message G2C_LoginGate // IResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-	int64 PlayerId = 4;
-}
-
 message G2C_TestHotfixMessage // IMessage
 {
 	string Info = 1;
@@ -236,15 +220,17 @@ message R2C_Login // IResponse
 	string Token = 5;
 }
 
-//ResponseType R2C_LoginGate
-message C2R_LoginGate // IRequest
+//ResponseType R2C_GetGate
+message C2R_GetGate // IRequest
 {
     // 验证成功后获取Gate
 	int32 RpcId = 1;
-	int64 AccountId = 4;
+	string Token = 2;
+	int64 AccountId = 3;
+	
 }
 
-message R2C_LoginGate // IResponse
+message R2C_GetGate // IResponse
 {
 	int32 RpcId = 1;
 	int32 Error = 2;
@@ -252,6 +238,22 @@ message R2C_LoginGate // IResponse
 	string Address = 4;
 	int64 Key = 5;
 	int64 GateId = 6;
+}
+
+//ResponseType G2C_LoginGate
+message C2G_LoginGate // IRequest
+{
+	int32 RpcId = 1;
+	int64 Key = 2;  // 帐号
+	int64 GateId = 3;
+}
+
+message G2C_LoginGate // IResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+	int64 PlayerId = 4;
 }
 
 message R2C_Disconnect // IMessage
@@ -289,24 +291,39 @@ message R2C_GetServerInfo // IResponse
 message RoleInfoProto
 {
 	int64 Id = 1;
-	string Name = 2;
+	string RoleName = 2;
 	int32 State = 3;
 	int64 AccountId = 4;
 	int64 LastLoginTime = 5;
 	int64 CreateTime = 6;
-	int32 ServerId = 7;
 }
+
+//ResponseType R2C_GetRole
+message C2R_GetRole // IRequest
+{
+	// Client To Realm 获取角色信息
+	int32 RpcId = 1;
+	string Token = 2;
+	int64 AccountId = 3;
+}
+
+message R2C_GetRole // IResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+	RoleInfoProto RoleInfo = 4;
+}
+
 
 //ResponseType R2C_CreateRole
 message C2R_CreateRole // IRequest
 {
-    // Client To Realm 创建角色
+    // Client To Realm 创建角色并返回
 	int32 RpcId = 1;
 	string Token = 2;
 	int64 AccountId = 3;
-	string Name = 4;
-	int32 ServerId = 5;
-	
+	string RoleName = 4;
 }
 
 message R2C_CreateRole // IResponse

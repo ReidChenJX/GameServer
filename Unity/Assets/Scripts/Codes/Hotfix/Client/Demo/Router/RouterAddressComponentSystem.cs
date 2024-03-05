@@ -69,6 +69,7 @@ namespace ET.Client
         
         public static IPEndPoint GetRealmAddress(this RouterAddressComponent self, string account)
         {
+            // 根据 account hash code 选择不同Zone 的Realm 网关
             int v = account.Mode(self.Info.Realms.Count);
             string address = self.Info.Realms[v];
             string[] ss = address.Split(':');
@@ -77,6 +78,16 @@ namespace ET.Client
             //{ 
             //    ipAddress = ipAddress.MapToIPv6();
             //}
+            return new IPEndPoint(ipAddress, int.Parse(ss[1]));
+        }
+
+        public static IPEndPoint GetRealmAddress(this RouterAddressComponent self)
+        {
+            // 获取第一个Zone 的Realm 网关地址
+            string address = self.Info.Realms[0];
+            string[] ss = address.Split(':');
+            IPAddress ipAddress = IPAddress.Parse(ss[0]);
+
             return new IPEndPoint(ipAddress, int.Parse(ss[1]));
         }
     }

@@ -28,7 +28,7 @@ namespace ET.Server
                 {
                     string passwdMD5 = MD5Helper.StringMD5(request.Password);
                     var accountInfoList = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone())
-                            .Query<Account>(d => d.AccountName.Equals(request.LoginName));
+                            .Query<Account>(d => d.LoginName.Equals(request.LoginName));
                     
                     Account account = null;
                     if (accountInfoList != null && accountInfoList.Count > 0)
@@ -57,7 +57,7 @@ namespace ET.Server
                         Log.Debug("数据库无数据，自动创建。");
                         // Session 也是组件，新建的account 需要挂载在其下，用于记录，入库账户信息
                         account = session.AddChild<Account>();
-                        account.AccountName = request.LoginName;
+                        account.LoginName = request.LoginName;
                         account.PassWord = passwdMD5;
                         account.CreateTime = TimeHelper.ServerNow();
                         account.AccountType = (int)AccountType.General;
@@ -103,18 +103,6 @@ namespace ET.Server
                     response.Token = token;
                     account?.Dispose();
                 }
-
-                // // 随机分配一个Gate
-                // StartSceneConfig config = RealmGateAddressHelper.GetGate(session.DomainZone());
-                // Log.Debug($"gate address: {MongoHelper.ToJson(config)}");
-                //
-                // // 向gate请求一个key,客户端可以拿着这个key连接gate
-                // G2R_GetLoginKey g2RGetLoginKey = (G2R_GetLoginKey) await ActorMessageSenderComponent.Instance.Call(
-                // 	config.InstanceId, new R2G_GetLoginKey() {Account = request.Account});
-                //
-                // response.Address = config.InnerIPOutPort.ToString();
-                // response.Key = g2RGetLoginKey.Key;
-                // response.GateId = g2RGetLoginKey.GateId;
             }
         }
     }

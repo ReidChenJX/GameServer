@@ -315,40 +315,6 @@ namespace ET
 
 	}
 
-	[ResponseType(nameof(G2C_LoginGate))]
-	[Message(OuterMessage.C2G_LoginGate)]
-	[ProtoContract]
-	public partial class C2G_LoginGate: ProtoObject, IRequest
-	{
-		[ProtoMember(1)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(2)]
-		public long Key { get; set; }
-
-		[ProtoMember(3)]
-		public long GateId { get; set; }
-
-	}
-
-	[Message(OuterMessage.G2C_LoginGate)]
-	[ProtoContract]
-	public partial class G2C_LoginGate: ProtoObject, IResponse
-	{
-		[ProtoMember(1)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(2)]
-		public int Error { get; set; }
-
-		[ProtoMember(3)]
-		public string Message { get; set; }
-
-		[ProtoMember(4)]
-		public long PlayerId { get; set; }
-
-	}
-
 	[Message(OuterMessage.G2C_TestHotfixMessage)]
 	[ProtoContract]
 	public partial class G2C_TestHotfixMessage: ProtoObject, IMessage
@@ -477,23 +443,26 @@ namespace ET
 
 	}
 
-	[ResponseType(nameof(R2C_LoginGate))]
-	[Message(OuterMessage.C2R_LoginGate)]
+	[ResponseType(nameof(R2C_GetGate))]
+	[Message(OuterMessage.C2R_GetGate)]
 	[ProtoContract]
-	public partial class C2R_LoginGate: ProtoObject, IRequest
+	public partial class C2R_GetGate: ProtoObject, IRequest
 	{
 // 验证成功后获取Gate
 		[ProtoMember(1)]
 		public int RpcId { get; set; }
 
-		[ProtoMember(4)]
+		[ProtoMember(2)]
+		public string Token { get; set; }
+
+		[ProtoMember(3)]
 		public long AccountId { get; set; }
 
 	}
 
-	[Message(OuterMessage.R2C_LoginGate)]
+	[Message(OuterMessage.R2C_GetGate)]
 	[ProtoContract]
-	public partial class R2C_LoginGate: ProtoObject, IResponse
+	public partial class R2C_GetGate: ProtoObject, IResponse
 	{
 		[ProtoMember(1)]
 		public int RpcId { get; set; }
@@ -512,6 +481,40 @@ namespace ET
 
 		[ProtoMember(6)]
 		public long GateId { get; set; }
+
+	}
+
+	[ResponseType(nameof(G2C_LoginGate))]
+	[Message(OuterMessage.C2G_LoginGate)]
+	[ProtoContract]
+	public partial class C2G_LoginGate: ProtoObject, IRequest
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public long Key { get; set; }
+
+		[ProtoMember(3)]
+		public long GateId { get; set; }
+
+	}
+
+	[Message(OuterMessage.G2C_LoginGate)]
+	[ProtoContract]
+	public partial class G2C_LoginGate: ProtoObject, IResponse
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int Error { get; set; }
+
+		[ProtoMember(3)]
+		public string Message { get; set; }
+
+		[ProtoMember(4)]
+		public long PlayerId { get; set; }
 
 	}
 
@@ -583,7 +586,7 @@ namespace ET
 		public long Id { get; set; }
 
 		[ProtoMember(2)]
-		public string Name { get; set; }
+		public string RoleName { get; set; }
 
 		[ProtoMember(3)]
 		public int State { get; set; }
@@ -597,8 +600,40 @@ namespace ET
 		[ProtoMember(6)]
 		public long CreateTime { get; set; }
 
-		[ProtoMember(7)]
-		public int ServerId { get; set; }
+	}
+
+	[ResponseType(nameof(R2C_GetRole))]
+	[Message(OuterMessage.C2R_GetRole)]
+	[ProtoContract]
+	public partial class C2R_GetRole: ProtoObject, IRequest
+	{
+// Client To Realm 获取角色信息
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public string Token { get; set; }
+
+		[ProtoMember(3)]
+		public long AccountId { get; set; }
+
+	}
+
+	[Message(OuterMessage.R2C_GetRole)]
+	[ProtoContract]
+	public partial class R2C_GetRole: ProtoObject, IResponse
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int Error { get; set; }
+
+		[ProtoMember(3)]
+		public string Message { get; set; }
+
+		[ProtoMember(4)]
+		public RoleInfoProto RoleInfo { get; set; }
 
 	}
 
@@ -607,7 +642,7 @@ namespace ET
 	[ProtoContract]
 	public partial class C2R_CreateRole: ProtoObject, IRequest
 	{
-// Client To Realm 创建角色
+// Client To Realm 创建角色并返回
 		[ProtoMember(1)]
 		public int RpcId { get; set; }
 
@@ -618,10 +653,7 @@ namespace ET
 		public long AccountId { get; set; }
 
 		[ProtoMember(4)]
-		public string Name { get; set; }
-
-		[ProtoMember(5)]
-		public int ServerId { get; set; }
+		public string RoleName { get; set; }
 
 	}
 
@@ -668,25 +700,27 @@ namespace ET
 		 public const ushort G2C_Test = 10022;
 		 public const ushort C2M_Reload = 10023;
 		 public const ushort M2C_Reload = 10024;
-		 public const ushort C2G_LoginGate = 10025;
-		 public const ushort G2C_LoginGate = 10026;
-		 public const ushort G2C_TestHotfixMessage = 10027;
-		 public const ushort C2M_TestRobotCase = 10028;
-		 public const ushort M2C_TestRobotCase = 10029;
-		 public const ushort C2M_TransferMap = 10030;
-		 public const ushort M2C_TransferMap = 10031;
-		 public const ushort C2G_Benchmark = 10032;
-		 public const ushort G2C_Benchmark = 10033;
-		 public const ushort C2R_Login = 10034;
-		 public const ushort R2C_Login = 10035;
-		 public const ushort C2R_LoginGate = 10036;
-		 public const ushort R2C_LoginGate = 10037;
+		 public const ushort G2C_TestHotfixMessage = 10025;
+		 public const ushort C2M_TestRobotCase = 10026;
+		 public const ushort M2C_TestRobotCase = 10027;
+		 public const ushort C2M_TransferMap = 10028;
+		 public const ushort M2C_TransferMap = 10029;
+		 public const ushort C2G_Benchmark = 10030;
+		 public const ushort G2C_Benchmark = 10031;
+		 public const ushort C2R_Login = 10032;
+		 public const ushort R2C_Login = 10033;
+		 public const ushort C2R_GetGate = 10034;
+		 public const ushort R2C_GetGate = 10035;
+		 public const ushort C2G_LoginGate = 10036;
+		 public const ushort G2C_LoginGate = 10037;
 		 public const ushort R2C_Disconnect = 10038;
 		 public const ushort ServerInfoProto = 10039;
 		 public const ushort C2R_GetServerInfo = 10040;
 		 public const ushort R2C_GetServerInfo = 10041;
 		 public const ushort RoleInfoProto = 10042;
-		 public const ushort C2R_CreateRole = 10043;
-		 public const ushort R2C_CreateRole = 10044;
+		 public const ushort C2R_GetRole = 10043;
+		 public const ushort R2C_GetRole = 10044;
+		 public const ushort C2R_CreateRole = 10045;
+		 public const ushort R2C_CreateRole = 10046;
 	}
 }

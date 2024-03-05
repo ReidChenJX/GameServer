@@ -44,6 +44,8 @@ _ReSharper.CSharp/
 .idea/
 /Unity/Logs
 /Unity/Assets/StreamingAssets/
+/Unity/Assets/Res/UIRes/
+/Unity/Assets/TextMesh Pro/
 /netcoreapp2.0
 /Unity/Assets/StreamingAssets.meta
 .DS_Store

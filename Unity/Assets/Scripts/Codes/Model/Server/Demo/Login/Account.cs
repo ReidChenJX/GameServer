@@ -9,7 +9,7 @@ namespace ET.Server
     [ChildOfAttribute]
     public class Account: Entity, IAwake
     {
-        public string AccountName { get; set; }         // Account 登录名
+        public string LoginName { get; set; }         // Account 登录名
         public string PassWord { get; set; }            // 密码
         public long CreateTime { get; set; }            // 创建时间
         public int AccountType { get; set; }            // 账户类型

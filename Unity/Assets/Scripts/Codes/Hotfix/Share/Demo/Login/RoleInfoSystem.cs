@@ -7,12 +7,11 @@ namespace ET
         public static void FromMessage(this RoleInfo self, RoleInfoProto roleInfoProto)
         {
             self.Id = roleInfoProto.Id;
-            self.Name = roleInfoProto.Name;
+            self.RoleName = roleInfoProto.RoleName;
             self.State = roleInfoProto.State;
             self.AccountId = roleInfoProto.AccountId;
             self.CreateTime = roleInfoProto.CreateTime;
             self.LastLoginTime = roleInfoProto.LastLoginTime;
-            self.ServerId = roleInfoProto.ServerId;
         }
 
 
@@ -21,12 +20,11 @@ namespace ET
             return new RoleInfoProto()
             {
                 Id = (int)self.Id,
-                Name = self.Name,
+                RoleName = self.RoleName,
                 State = self.State,
                 AccountId = self.AccountId,
                 CreateTime = self.CreateTime,
                 LastLoginTime = self.LastLoginTime,
-                ServerId = self.ServerId
             };
         }
     }

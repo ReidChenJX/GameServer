@@ -19,7 +19,7 @@ namespace ET.Server
                 return;
             }
 
-            if (string.IsNullOrEmpty(request.Name))
+            if (string.IsNullOrEmpty(request.RoleName))
             {
                 response.Error = ErrorCode.ERR_RoleNameNull;
                 return;
@@ -40,25 +40,19 @@ namespace ET.Server
                 {
                     RoleInfo roleInfo = null;
                     List<RoleInfo> roleInfosDB = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone())
-                            .Query<RoleInfo>(d => d.Name == request.Name && d.ServerId == request.ServerId);
+                            .Query<RoleInfo>(d => d.RoleName == request.RoleName);
 
                     if (roleInfosDB != null && roleInfosDB.Count > 0)
                     {
                         // 用户已注册，直接登录
-                        // response.Error = ErrorCode.ERR_RoleNameSame;
-                        // return;
-                        roleInfo = roleInfosDB[0];
-                        session.AddChild(roleInfosDB[0]);
-                        response.RoleInfo = roleInfosDB[0].ToMessage();
-                        roleInfo?.Dispose();
+                        response.Error = ErrorCode.ERR_RoleNameSame;
                         return;
                     }
 
                     // 新建角色，角色入库
-                    roleInfo = session.AddChildWithId<RoleInfo>(IdGenerater.Instance.GenerateUnitId(request.ServerId));
-                    roleInfo.Name = request.Name;
+                    roleInfo = session.AddChildWithId<RoleInfo>(IdGenerater.Instance.GenerateInstanceId());
+                    roleInfo.RoleName = request.RoleName;
                     roleInfo.State = (int)RoleState.Normal;
-                    roleInfo.ServerId = request.ServerId;
                     roleInfo.AccountId = request.AccountId;
                     roleInfo.CreateTime = TimeHelper.ServerNow();
                     roleInfo.LastLoginTime = 0;
