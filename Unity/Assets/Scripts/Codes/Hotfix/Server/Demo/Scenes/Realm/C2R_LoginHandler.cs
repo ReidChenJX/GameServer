@@ -27,8 +27,7 @@ namespace ET.Server
                 using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoginAccount, request.LoginName.GetHashCode()))
                 {
                     string passwdMD5 = MD5Helper.StringMD5(request.Password);
-                    var accountInfoList = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone())
-                            .Query<Account>(d => d.LoginName.Equals(request.LoginName));
+                    var accountInfoList = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone()).Query<Account>(d => d.LoginName.Equals(request.LoginName));
                     
                     Account account = null;
                     if (accountInfoList != null && accountInfoList.Count > 0)

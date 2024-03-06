@@ -10,5 +10,6 @@ namespace ET.Client
         WindowID_Helper,   //提示界面
     	WindowID_Server,
 		WindowID_UserName,
+		WindowID_CreatRole,
 	}
 }

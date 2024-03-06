@@ -51,40 +51,7 @@ namespace ET.Client
 
             return ErrorCode.ERR_Success;
         }
-
-        // public static async ETTask<int> GetServerInfos(Scene clientScene)
-        // {
-        //     try
-        //     {
-        //         // Client 向 Realm 申请区服
-        //         R2C_GetServerInfo r2CGetServerInfo = (R2C_GetServerInfo)await clientScene.GetComponent<SessionComponent>().Session.Call(
-        //             new C2R_GetServerInfo()
-        //             {
-        //                 AccountId = clientScene.GetComponent<AccountInfoComponent>().AccountId,
-        //                 Token = clientScene.GetComponent<AccountInfoComponent>().Token
-        //             });
-        //
-        //         if (r2CGetServerInfo.Error != ErrorCode.ERR_Success)
-        //         {
-        //             return r2CGetServerInfo.Error;
-        //         }
-        //
-        //         foreach (var serverPorto in r2CGetServerInfo.ServerInfoList)
-        //         {
-        //             ServerInfo serverInfo = clientScene.GetComponent<ServerInfoComponent>().AddChild<ServerInfo>();
-        //             serverInfo.FromMessage(serverPorto);
-        //             clientScene.GetComponent<ServerInfoComponent>().Add(serverInfo);
-        //         }
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         Log.Debug(e.ToString());
-        //         return ErrorCode.ERR_OERR;
-        //     }
-        //     await ETTask.CompletedTask;
-        //     return ErrorCode.ERR_Success;
-        // }
-
+        
         public static async ETTask<int> GetRole(Scene clientScene)
         {
             try

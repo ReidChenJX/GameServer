@@ -36,8 +36,9 @@ namespace ET.Client
                 {
                     // 登录错误
                     Log.Error(errorCode.ToString());
-                    string errText = ShowLoginError(errorCode);
-                    self.View.E_LoginErrorTextText.text = errText;
+                    //string errText = ShowLoginError(errorCode);
+                    string errText = ErrorCodeSystem.ErrorExplain(errorCode);
+                    self.View.E_ErrorTextText.text = errText;
                     return;
                 }
                 
@@ -49,13 +50,9 @@ namespace ET.Client
                     Log.Error(errorCode.ToString());
                     // TODO 显示登录后的UI界面
                     self.DomainScene().GetComponent<UIComponent>().HideWindow(WindowID.WindowID_Login);
-                    self.DomainScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_UserName);
-
+                    self.DomainScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_CreatRole);
                     return;
                 }
-                
-                // 手动创建角色信息 角色名 = 登录名
-                // errorCode = await LoginHelper.CreateRole(self.ClientScene(), accountText);
                 
                 // EnterMap 
                 errorCode = await LoginHelper.GetGate(self.ClientScene());
@@ -72,20 +69,6 @@ namespace ET.Client
             {
                 Log.Error(e.ToString());
             }
-        }
-
-        public static string ShowLoginError(int errCode)
-        {
-            switch (errCode)
-            {
-                case 200003 :
-                    return "账户名、密码错误！";
-                case 200004:
-                    return "密码格式错误，需包含数字，大小写字母，长度为6-15之间！";
-                case 200005:
-                    return "账户处于黑名单！";
-            }
-            return "";
         }
     }
 }

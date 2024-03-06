@@ -262,32 +262,6 @@ message R2C_Disconnect // IMessage
 	int32 Error = 1;
 }
 
-message ServerInfoProto
-{
-	int32 Id = 1;
-	int32 Status = 2;
-	string ServerName = 3;
-}
-
-
-//ResponseType R2C_GetServerInfo
-message C2R_GetServerInfo // IRequest
-{
-    // 获取区服数据
-	int32 RpcId = 1;
-	string Token = 2;
-	int64 AccountId = 3;
-
-}
-
-message R2C_GetServerInfo // IResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-	repeated ServerInfoProto ServerInfoList = 4;
-}
-
 message RoleInfoProto
 {
 	int64 Id = 1;

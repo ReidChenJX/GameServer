@@ -109,7 +109,7 @@ namespace ET.Client
      		}
      	}
 
-		public UnityEngine.UI.Text E_LoginErrorTextText
+		public UnityEngine.UI.Text E_ErrorTextText
      	{
      		get
      		{
@@ -118,15 +118,15 @@ namespace ET.Client
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_E_LoginErrorTextText == null )
+     			if( this.m_E_ErrorTextText == null )
      			{
-		    		this.m_E_LoginErrorTextText = UIFindHelper.FindDeepChild<UnityEngine.UI.Text>(this.uiTransform.gameObject,"Sprite_BackGround/E_LoginErrorText");
+		    		this.m_E_ErrorTextText = UIFindHelper.FindDeepChild<UnityEngine.UI.Text>(this.uiTransform.gameObject,"Sprite_BackGround/E_ErrorText");
      			}
-     			return this.m_E_LoginErrorTextText;
+     			return this.m_E_ErrorTextText;
      		}
      	}
 
-		public UnityEngine.UI.Text E_LoginVersionText
+		public UnityEngine.UI.Text E_VersionText
      	{
      		get
      		{
@@ -135,11 +135,11 @@ namespace ET.Client
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_E_LoginVersionText == null )
+     			if( this.m_E_VersionText == null )
      			{
-		    		this.m_E_LoginVersionText = UIFindHelper.FindDeepChild<UnityEngine.UI.Text>(this.uiTransform.gameObject,"Sprite_BackGround/E_LoginVersion");
+		    		this.m_E_VersionText = UIFindHelper.FindDeepChild<UnityEngine.UI.Text>(this.uiTransform.gameObject,"Sprite_BackGround/E_Version");
      			}
-     			return this.m_E_LoginVersionText;
+     			return this.m_E_VersionText;
      		}
      	}
 
@@ -151,8 +151,8 @@ namespace ET.Client
 			this.m_E_AccountImage = null;
 			this.m_E_PasswordInputField = null;
 			this.m_E_PasswordImage = null;
-			this.m_E_LoginErrorTextText = null;
-			this.m_E_LoginVersionText = null;
+			this.m_E_ErrorTextText = null;
+			this.m_E_VersionText = null;
 			this.uiTransform = null;
 		}
 
@@ -162,8 +162,8 @@ namespace ET.Client
 		private UnityEngine.UI.Image m_E_AccountImage = null;
 		private UnityEngine.UI.InputField m_E_PasswordInputField = null;
 		private UnityEngine.UI.Image m_E_PasswordImage = null;
-		private UnityEngine.UI.Text m_E_LoginErrorTextText = null;
-		private UnityEngine.UI.Text m_E_LoginVersionText = null;
+		private UnityEngine.UI.Text m_E_ErrorTextText = null;
+		private UnityEngine.UI.Text m_E_VersionText = null;
 		public Transform uiTransform = null;
 	}
 }
