@@ -14,6 +14,10 @@ namespace ET.Client
             clientScene.AddComponent<PlayerComponent>();
             clientScene.AddComponent<SessionComponent>();
             
+            // 自定义组件增加
+            clientScene.AddComponent<AccountInfoComponent>();
+            clientScene.AddComponent<RoleInfoComponent>();
+
             
             EventSystem.Instance.Publish(clientScene, new EventType.AfterCreateClientScene());
             return clientScene;

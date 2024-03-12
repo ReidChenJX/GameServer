@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using ET.Client;
 
 namespace ET.Server
 {
@@ -29,7 +27,9 @@ namespace ET.Server
         {
             Log.Debug("GetZoneDB: 获取当前Zone的DB组件");
             Log.Debug(zone.ToString());
+            Log.Debug(self.DBComponents.Length.ToString());
             DBComponent dbComponent = self.DBComponents[zone];
+            Log.Debug("#############");
             if (dbComponent != null)
             {
                 return dbComponent;
@@ -47,3 +47,4 @@ namespace ET.Server
         }
     }
 }
+

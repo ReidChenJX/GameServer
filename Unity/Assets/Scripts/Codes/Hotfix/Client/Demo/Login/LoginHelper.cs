@@ -65,8 +65,7 @@ namespace ET.Client
                 
                 if (r2CGetRole.Error != ErrorCode.ERR_Success)
                 {
-                    Log.Debug($"该登录用户无角色信息");
-                    Log.Error(r2CGetRole.Error.ToString());
+                    Log.Debug($"该登录用户无角色信息: ErrCode:{r2CGetRole.Error.ToString()}");
                     return r2CGetRole.Error;
                 }
                 

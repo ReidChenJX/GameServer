@@ -47,7 +47,7 @@ namespace ET.Client
                 if(errorCode != ErrorCode.ERR_Success)
                 {
                     // 无角色，进入角色创建页面
-                    Log.Error(errorCode.ToString());
+                    Log.Debug(errorCode.ToString());
                     // TODO 显示登录后的UI界面
                     self.DomainScene().GetComponent<UIComponent>().HideWindow(WindowID.WindowID_Login);
                     self.DomainScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_CreatRole);
