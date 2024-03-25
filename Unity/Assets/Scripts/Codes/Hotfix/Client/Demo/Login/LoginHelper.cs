@@ -155,25 +155,4 @@ namespace ET.Client
             return ErrorCode.ERR_Success;
         }
     }
-
-
-    public static class LoginStep
-    {
-        public static async ETTask LoginStepAll()
-        {
-            // 登录过程
-            // int errorCode =  await LoginHelper.LoginAccount(self.ClientScene(), accountText, passWdText);
-            // 向 Realm 服务器申请验证登录名与密码，返回 AccountId Token
-            
-            // 角色获取
-            // int errorCode =  await LoginHelper.GetRole(self.ClientScene());
-            
-            
-            
-            
-            
-            await ETTask.CompletedTask;
-        }
-    }
-    
 }

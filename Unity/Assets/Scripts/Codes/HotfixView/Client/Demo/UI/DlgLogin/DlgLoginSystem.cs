@@ -17,8 +17,7 @@ namespace ET.Client
 
         public static void ShowWindow(this DlgLogin self, Entity contextData = null)
         {
-
-			
+            
         }
 
         public static async ETTask OnLoginClickHandler(this DlgLogin self)

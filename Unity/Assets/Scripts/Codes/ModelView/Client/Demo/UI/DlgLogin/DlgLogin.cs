@@ -6,7 +6,6 @@
 
 		public DlgLoginViewComponent View { get => this.GetComponent<DlgLoginViewComponent>();} 
 
-		 
-
+		
 	}
 }
