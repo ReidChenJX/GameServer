@@ -25,11 +25,8 @@ namespace ET.Server
         
         public static DBComponent GetZoneDB(this DBManagerComponent self, int zone)
         {
-            Log.Debug("GetZoneDB: 获取当前Zone的DB组件");
-            Log.Debug(zone.ToString());
-            Log.Debug(self.DBComponents.Length.ToString());
+
             DBComponent dbComponent = self.DBComponents[zone];
-            Log.Debug("#############");
             if (dbComponent != null)
             {
                 return dbComponent;

@@ -23,6 +23,7 @@ namespace ET.Client
         {
             await EnterMapHelper.EnterMapAsync(self.ClientScene());
             self.ClientScene().GetComponent<UIComponent>().HideWindow(WindowID.WindowID_Lobby);
+            self.ClientScene().GetComponent<UIComponent>().HideWindow(WindowID.WindowID_UserName);
         }
 
     }

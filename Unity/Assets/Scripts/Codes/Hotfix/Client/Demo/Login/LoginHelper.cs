@@ -142,9 +142,18 @@ namespace ET.Client
             
                 G2C_LoginGate g2CLoginGate = (G2C_LoginGate)await gateSession.Call(
                     new C2G_LoginGate() { Key = r2CLoginGate.Key, GateId = r2CLoginGate.GateId});
-            
-                Log.Debug("登陆gate成功!");
-                await EventSystem.Instance.PublishAsync(clientScene, new EventType.LoginFinish());
+
+                if (g2CLoginGate.PlayerId == clientScene.GetComponent<AccountInfoComponent>().AccountId)
+                {
+                    Log.Debug("登陆gate成功!");
+                    await EventSystem.Instance.PublishAsync(clientScene, new EventType.LoginFinish());
+                }
+                else
+                {
+                    Log.Debug("gate 用户返回错误");
+                    return ErrorCode.ERR_OERR;
+                }
+                
             }
             catch (Exception e)
             {

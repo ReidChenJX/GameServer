@@ -53,13 +53,12 @@ namespace ET.Client
                     return;
                 }
                 
-                // EnterMap 
+                // GetGate
                 errorCode = await LoginHelper.GetGate(self.ClientScene());
-                await EnterMapHelper.EnterMapAsync(self.ClientScene());
+                //await EnterMapHelper.EnterMapAsync(self.ClientScene());
                 
-                Log.Debug("HideWindow(WindowID.WindowID_Login)");
                 // TODO 显示登录后的UI界面
-                self.DomainScene().GetComponent<UIComponent>().HideWindow(WindowID.WindowID_Login);
+                self.DomainScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Lobby);
                 self.DomainScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_UserName);
                 // self.DomainScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Server);
                 
