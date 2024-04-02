@@ -496,6 +496,9 @@ namespace ET
 		public long Key { get; set; }
 
 		[ProtoMember(3)]
+		public long AccountId { get; set; }
+
+		[ProtoMember(4)]
 		public long GateId { get; set; }
 
 	}

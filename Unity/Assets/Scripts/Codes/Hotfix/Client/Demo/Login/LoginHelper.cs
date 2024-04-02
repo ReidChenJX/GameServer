@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using ET.Server;
 
 namespace ET.Client
 {
@@ -127,10 +128,11 @@ namespace ET.Client
         {
             try
             {
+                var accountId = clientScene.GetComponent<AccountInfoComponent>().AccountId;
                 R2C_GetGate r2CLoginGate = (R2C_GetGate)await clientScene.DomainScene().GetComponent<SessionComponent>().Session.Call(
                     new C2R_GetGate()
                     {
-                        AccountId = clientScene.GetComponent<AccountInfoComponent>().AccountId,
+                        AccountId = accountId,
                         Token = clientScene.GetComponent<AccountInfoComponent>().Token
                     });
                 
@@ -141,7 +143,7 @@ namespace ET.Client
                 clientScene.GetComponent<SessionComponent>().Session = gateSession;
             
                 G2C_LoginGate g2CLoginGate = (G2C_LoginGate)await gateSession.Call(
-                    new C2G_LoginGate() { Key = r2CLoginGate.Key, GateId = r2CLoginGate.GateId});
+                    new C2G_LoginGate() { Key = r2CLoginGate.Key, GateId = r2CLoginGate.GateId, AccountId = accountId});
 
                 if (g2CLoginGate.PlayerId == clientScene.GetComponent<AccountInfoComponent>().AccountId)
                 {

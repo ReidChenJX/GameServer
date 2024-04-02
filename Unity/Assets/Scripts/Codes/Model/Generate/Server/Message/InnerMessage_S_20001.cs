@@ -418,6 +418,38 @@ namespace ET
 
 	}
 
+	[ResponseType(nameof(G2L_DisconnectGateUnit))]
+	[Message(InnerMessage.G2L_AddLoginRecord)]
+	[ProtoContract]
+	public partial class G2L_AddLoginRecord: ProtoObject, IActorRequest
+	{
+// Gate 向 LoginCenter 记录登录的用户
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public long AccountId { get; set; }
+
+		[ProtoMember(3)]
+		public int ZoneId { get; set; }
+
+	}
+
+	[Message(InnerMessage.L2G_AddLoginRecord)]
+	[ProtoContract]
+	public partial class L2G_AddLoginRecord: ProtoObject, IActorResponse
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int Error { get; set; }
+
+		[ProtoMember(3)]
+		public string Message { get; set; }
+
+	}
+
 	public static class InnerMessage
 	{
 		 public const ushort ObjectQueryRequest = 20002;
@@ -447,5 +479,7 @@ namespace ET
 		 public const ushort L2R_LoginAccountResponse = 20026;
 		 public const ushort L2G_DisconnectGateUnit = 20027;
 		 public const ushort G2L_DisconnectGateUnit = 20028;
+		 public const ushort G2L_AddLoginRecord = 20029;
+		 public const ushort L2G_AddLoginRecord = 20030;
 	}
 }
