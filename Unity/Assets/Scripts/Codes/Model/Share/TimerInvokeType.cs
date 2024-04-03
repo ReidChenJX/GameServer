@@ -15,5 +15,6 @@
         public const int SessionAcceptTimeout = 203;
         
         public const int AccountSessionCheckOut = 204;
+        public const int PlayerOfflineOutTime = 205;
     }
 }

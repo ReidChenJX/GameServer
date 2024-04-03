@@ -58,15 +58,22 @@ namespace ET.Server
                 if (player == null)
                 {
                     player = playerComponent.AddChild<Player, long>(accountId);
+                    player.PlayerState = PlayerState.Gate;
                     playerComponent.Add(player);
+                }
+                else
+                {
+                    player.RemoveComponent<PlayerOfflineOutTimeComponent>();
                 }
                 
                 
-                session.AddComponent<SessionPlayerComponent>().PlayerId = player.Id;
+                session.AddComponent<SessionPlayerComponent>().PlayerId = player.AccountId;
+                session.GetComponent<SessionPlayerComponent>().PlayerInstanceId = player.InstanceId;
                 session.AddComponent<MailBoxComponent, MailboxType>(MailboxType.GateSession);
 
+                player.PlayerState = PlayerState.Gate;
+                player.SessionInstanceId = session.InstanceId;
                 response.PlayerId = player.Id;
-                await ETTask.CompletedTask;
             }
         }
     }

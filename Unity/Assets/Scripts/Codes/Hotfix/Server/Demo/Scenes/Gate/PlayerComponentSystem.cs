@@ -7,7 +7,7 @@ namespace ET.Server
     {
         public static void Add(this PlayerComponent self, Player player)
         {
-            self.idPlayers.Add(player.Id, player);
+            self.idPlayers.Add(player.AccountId, player);
         }
 
         public static Player Get(this PlayerComponent self, long id)
