@@ -450,6 +450,32 @@ namespace ET
 
 	}
 
+	[ResponseType(nameof(G2C_EnterGame))]
+	[Message(InnerMessage.C2G_EnterGame)]
+	[ProtoContract]
+	public partial class C2G_EnterGame: ProtoObject, IActorRequest
+	{
+// Client 向 Gate 申请进入游戏Scene
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+	}
+
+	[Message(InnerMessage.G2C_EnterGame)]
+	[ProtoContract]
+	public partial class G2C_EnterGame: ProtoObject, IActorResponse
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int Error { get; set; }
+
+		[ProtoMember(3)]
+		public string Message { get; set; }
+
+	}
+
 	public static class InnerMessage
 	{
 		 public const ushort ObjectQueryRequest = 20002;
@@ -481,5 +507,7 @@ namespace ET
 		 public const ushort G2L_DisconnectGateUnit = 20028;
 		 public const ushort G2L_AddLoginRecord = 20029;
 		 public const ushort L2G_AddLoginRecord = 20030;
+		 public const ushort C2G_EnterGame = 20031;
+		 public const ushort G2C_EnterGame = 20032;
 	}
 }

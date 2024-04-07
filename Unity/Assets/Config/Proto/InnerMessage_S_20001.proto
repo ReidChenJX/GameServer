@@ -216,3 +216,19 @@ message L2G_AddLoginRecord // IActorResponse
 	int32 Error = 2;
 	string Message = 3;
 }
+
+//ResponseType G2C_EnterGame
+message C2G_EnterGame // IActorRequest
+{
+// Client 向 Gate 申请进入游戏Scene
+	int32 RpcId = 1;
+}
+
+message G2C_EnterGame // IActorResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+	// 自己的UnitId
+	int64 Myid = 4;
+}

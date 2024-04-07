@@ -67,7 +67,7 @@ namespace ET.Server
                 }
                 
                 
-                session.AddComponent<SessionPlayerComponent>().PlayerId = player.AccountId;
+                session.AddComponent<SessionPlayerComponent>().PlayerId = player.AccountId;     // PlayerID与AccountID保持一致
                 session.GetComponent<SessionPlayerComponent>().PlayerInstanceId = player.InstanceId;
                 session.AddComponent<MailBoxComponent, MailboxType>(MailboxType.GateSession);
 

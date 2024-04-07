@@ -66,7 +66,7 @@ namespace ET.Client
                 
                 if (r2CGetRole.Error != ErrorCode.ERR_Success)
                 {
-                    Log.Debug($"该登录用户无角色信息: ErrCode:{r2CGetRole.Error.ToString()}");
+                    Log.Error($"该登录用户无角色信息: ErrCode:{r2CGetRole.Error.ToString()}");
                     return r2CGetRole.Error;
                 }
                 
@@ -81,7 +81,7 @@ namespace ET.Client
             }
             catch (Exception e)
             {
-                Log.Debug(e.ToString());
+                Log.Error(e.ToString());
                 return ErrorCode.ERR_OERR;
             }
             
@@ -116,14 +116,13 @@ namespace ET.Client
             }
             catch (Exception e)
             {
-                Log.Debug(e.ToString());
+                Log.Error(e.ToString());
                 return ErrorCode.ERR_OERR;
             }
             
             return ErrorCode.ERR_Success;
         }
-
-
+        
         public static async ETTask<int> GetGate(Scene clientScene)
         {
             try
@@ -148,22 +147,76 @@ namespace ET.Client
                 if (g2CLoginGate.PlayerId == clientScene.GetComponent<AccountInfoComponent>().AccountId)
                 {
                     Log.Debug("登陆gate成功!");
-                    await EventSystem.Instance.PublishAsync(clientScene, new EventType.LoginFinish());
+                    // await EventSystem.Instance.PublishAsync(clientScene, new EventType.LoginFinish());
                 }
                 else
                 {
-                    Log.Debug("gate 用户返回错误");
+                    Log.Error("gate 用户返回错误");
                     return ErrorCode.ERR_OERR;
                 }
                 
             }
             catch (Exception e)
             {
-                Log.Debug(e.ToString());
+                Log.Error(e.ToString());
                 return ErrorCode.ERR_OERR;
             }
             
             return ErrorCode.ERR_Success;
         }
+
+        public static async ETTask<int> EnterGame(Scene clientScene)
+        {
+            try
+            {
+                G2C_EnterGame g2CEnterGame = (G2C_EnterGame)await clientScene.DomainScene().GetComponent<SessionComponent>().Session.Call(
+                    new C2G_EnterGame(){ });
+
+                if (g2CEnterGame.Error != ErrorCode.ERR_Success)
+                {
+                    Log.Error(g2CEnterGame.Error.ToString());
+                    return g2CEnterGame.Error;
+                }
+
+            }
+            catch (Exception e)
+            {
+                Log.Debug(e.ToString());
+                clientScene.DomainScene().GetComponent<SessionComponent>().Session.Dispose();
+                return ErrorCode.ERR_NetWorkError;
+            }
+            
+            Log.Debug("用户进入游戏场景。");
+            return ErrorCode.ERR_Success;
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
