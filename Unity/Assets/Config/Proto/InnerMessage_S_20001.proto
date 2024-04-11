@@ -162,6 +162,7 @@ message M2M_UnitTransferRequest // IActorRequest
 	int64 OldInstanceId = 2;
 	bytes Unit = 3;
 	repeated bytes Entitys = 4;
+	int32 ZoneId = 5;
 }
 
 message M2M_UnitTransferResponse // IActorResponse
@@ -201,7 +202,7 @@ message G2L_DisconnectGateUnit // IActorResponse
 	string Message = 3;
 }
 
-//ResponseType G2L_DisconnectGateUnit
+//ResponseType L2G_AddLoginRecord
 message G2L_AddLoginRecord // IActorRequest
 {
 	// Gate 向 LoginCenter 记录登录的用户
@@ -217,18 +218,60 @@ message L2G_AddLoginRecord // IActorResponse
 	string Message = 3;
 }
 
-//ResponseType G2C_EnterGame
-message C2G_EnterGame // IActorRequest
+//ResponseType M2G_RequestEnterGameState
+message G2M_RequestEnterGameState // IActorLocationRequest
 {
-// Client 向 Gate 申请进入游戏Scene
+	// Gate 向 Game 确认角色是否在游戏服
 	int32 RpcId = 1;
 }
 
-message G2C_EnterGame // IActorResponse
+message M2G_RequestEnterGameState // IActorLocationResponse
 {
 	int32 RpcId = 1;
 	int32 Error = 2;
 	string Message = 3;
-	// 自己的UnitId
-	int64 Myid = 4;
+}
+
+//ResponseType M2G_RequestExitGame
+message G2M_RequestExitGame // IActorLocationRequest
+{
+	// Gate 向 Game 角色下线请求
+	int32 RpcId = 1;
+}
+
+message M2G_RequestExitGame // IActorLocationResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
+//ResponseType L2G_RemoveLoginRecord
+message G2L_RemoveLoginRecord // IActorRequest
+{
+	// Gate 向 LoginCenter 下线登录的用户
+	int32 RpcId = 1;
+	int64 AccountId = 2;
+	int32 ZoneId = 3;
+}
+
+message L2G_RemoveLoginRecord // IActorResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
+//ResponseType M2G_UnitDataSave
+message G2M_UnitDataSave // IActorLocationRequest
+{
+	// 向 Map 保存角色数据
+	int32 RpcId = 1;
+}
+
+message M2G_UnitDataSave // IActorLocationResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
 }

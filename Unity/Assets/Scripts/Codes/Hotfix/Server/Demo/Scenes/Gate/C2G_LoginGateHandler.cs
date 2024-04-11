@@ -41,7 +41,8 @@ namespace ET.Server
                 }
 
                 // 登录中心记录本次登录的服务器Zone
-                StartSceneConfig loginCenterConfig = StartSceneConfigCategory.Instance.LoginCenterConfig;
+                StartSceneConfig loginCenterConfig = StartSceneConfigCategory.Instance.GetBySceneName(session.DomainZone(), "LoginCenter");
+                //StartSceneConfig loginCenterConfig = StartSceneConfigCategory.Instance.LoginCenterConfig;
                 L2G_AddLoginRecord l2GAddLoginRecord = (L2G_AddLoginRecord)await MessageHelper.CallActor(loginCenterConfig.InstanceId,
                     new G2L_AddLoginRecord() { AccountId = accountId, ZoneId = scene.Zone, });
 
@@ -51,6 +52,15 @@ namespace ET.Server
                     session?.Disconnect().Coroutine();
                     return;
                 }
+                
+                // 记录Session 当前对象是Gate 还是Game
+                SessionStateComponent sessionStateComponent = session.GetComponent<SessionStateComponent>();
+                if (sessionStateComponent == null)
+                {
+                    sessionStateComponent = session.AddComponent<SessionStateComponent>();
+                }
+
+                sessionStateComponent.State = SessionState.Gate;
 
                 PlayerComponent playerComponent = scene.GetComponent<PlayerComponent>();
                 Player player = playerComponent.Get(accountId);
@@ -63,6 +73,7 @@ namespace ET.Server
                 }
                 else
                 {
+                    // 二次登录
                     player.RemoveComponent<PlayerOfflineOutTimeComponent>();
                 }
                 
@@ -73,7 +84,7 @@ namespace ET.Server
 
                 player.PlayerState = PlayerState.Gate;
                 player.SessionInstanceId = session.InstanceId;
-                response.PlayerId = player.Id;
+                response.PlayerId = player.AccountId;
             }
         }
     }

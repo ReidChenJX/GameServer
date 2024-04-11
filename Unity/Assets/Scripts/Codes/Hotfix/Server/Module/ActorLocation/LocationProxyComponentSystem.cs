@@ -22,40 +22,40 @@ namespace ET.Server
 
     public static class LocationProxyComponentSystem
     {
-        private static long GetLocationSceneId(long key)
+        private static long GetLocationSceneId(int zoneId)
         {
-            return StartSceneConfigCategory.Instance.LocationConfig.InstanceId;
+            return StartSceneConfigCategory.Instance.GetBySceneName(zoneId, "Location").InstanceId;
         }
 
-        public static async ETTask Add(this LocationProxyComponent self, long key, long instanceId)
+        public static async ETTask Add(this LocationProxyComponent self, long key, long instanceId, int zoneId)
         {
             Log.Info($"location proxy add {key}, {instanceId} {TimeHelper.ServerNow()}");
-            await ActorMessageSenderComponent.Instance.Call(GetLocationSceneId(key),
+            await ActorMessageSenderComponent.Instance.Call(GetLocationSceneId(zoneId),
                 new ObjectAddRequest() { Key = key, InstanceId = instanceId });
         }
 
-        public static async ETTask Lock(this LocationProxyComponent self, long key, long instanceId, int time = 60000)
+        public static async ETTask Lock(this LocationProxyComponent self, long key, long instanceId, int zoneId, int time = 60000)
         {
             Log.Info($"location proxy lock {key}, {instanceId} {TimeHelper.ServerNow()}");
-            await ActorMessageSenderComponent.Instance.Call(GetLocationSceneId(key),
+            await ActorMessageSenderComponent.Instance.Call(GetLocationSceneId(zoneId),
                 new ObjectLockRequest() { Key = key, InstanceId = instanceId, Time = time });
         }
 
-        public static async ETTask UnLock(this LocationProxyComponent self, long key, long oldInstanceId, long instanceId)
+        public static async ETTask UnLock(this LocationProxyComponent self, long key, long oldInstanceId, long instanceId, int ZoneId)
         {
             Log.Info($"location proxy unlock {key}, {instanceId} {TimeHelper.ServerNow()}");
-            await ActorMessageSenderComponent.Instance.Call(GetLocationSceneId(key),
+            await ActorMessageSenderComponent.Instance.Call(GetLocationSceneId(ZoneId),
                 new ObjectUnLockRequest() { Key = key, OldInstanceId = oldInstanceId, InstanceId = instanceId });
         }
 
-        public static async ETTask Remove(this LocationProxyComponent self, long key)
+        public static async ETTask Remove(this LocationProxyComponent self, long key, int zoneId)
         {
             Log.Info($"location proxy add {key}, {TimeHelper.ServerNow()}");
-            await ActorMessageSenderComponent.Instance.Call(GetLocationSceneId(key),
+            await ActorMessageSenderComponent.Instance.Call(GetLocationSceneId(zoneId),
                 new ObjectRemoveRequest() { Key = key });
         }
 
-        public static async ETTask<long> Get(this LocationProxyComponent self, long key)
+        public static async ETTask<long> Get(this LocationProxyComponent self, long key, int zoneId)
         {
             if (key == 0)
             {
@@ -64,19 +64,19 @@ namespace ET.Server
 
             // location server配置到共享区，一个大战区可以配置N多个location server,这里暂时为1
             ObjectGetResponse response =
-                    (ObjectGetResponse) await ActorMessageSenderComponent.Instance.Call(GetLocationSceneId(key),
+                    (ObjectGetResponse) await ActorMessageSenderComponent.Instance.Call(GetLocationSceneId(zoneId),
                         new ObjectGetRequest() { Key = key });
             return response.InstanceId;
         }
 
         public static async ETTask AddLocation(this Entity self)
         {
-            await LocationProxyComponent.Instance.Add(self.Id, self.InstanceId);
+            await LocationProxyComponent.Instance.Add(self.Id, self.InstanceId, self.DomainZone());
         }
 
         public static async ETTask RemoveLocation(this Entity self)
         {
-            await LocationProxyComponent.Instance.Remove(self.Id);
+            await LocationProxyComponent.Instance.Remove(self.Id, self.DomainZone());
         }
     }
 }

@@ -18,10 +18,13 @@ namespace ET.Server
             // location加锁
             long unitId = unit.Id;
             long unitInstanceId = unit.InstanceId;
+            int zoneId = unit.DomainZone();
             
             M2M_UnitTransferRequest request = new M2M_UnitTransferRequest() {Entitys = new List<byte[]>()};
             request.OldInstanceId = unitInstanceId;
             request.Unit = unit.ToBson();
+            request.ZoneId = zoneId;
+            
             foreach (Entity entity in unit.Components.Values)
             {
                 if (entity is ITransfer)
@@ -31,7 +34,7 @@ namespace ET.Server
             }
             unit.Dispose();
             
-            await LocationProxyComponent.Instance.Lock(unitId, unitInstanceId);
+            await LocationProxyComponent.Instance.Lock(unitId, unitInstanceId, zoneId);
             await ActorMessageSenderComponent.Instance.Call(sceneInstanceId, request);
         }
     }

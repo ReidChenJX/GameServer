@@ -6,7 +6,7 @@ namespace ET.Server
     [ComponentOf(typeof(Scene))]
     public class LoginInfoRecordComponent : Entity, IAwake, IDestroy
     {
-        // <accountId  SceneID>
+        // <accountId  ZoneID>
         public Dictionary<long, int> AccountLoginInfoDict = new Dictionary<long, int>();
     }
 }

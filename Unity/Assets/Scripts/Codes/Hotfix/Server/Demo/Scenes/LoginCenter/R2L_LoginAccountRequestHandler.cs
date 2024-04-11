@@ -1,9 +1,9 @@
 namespace ET.Server
 {
     [ActorMessageHandler(SceneType.LoginCenter)]
-    public class A2L_LoginAccountRequestHandler : AMActorRpcHandler<Scene, R2L_LoginAccountRequest, L2R_LoginAccountResponse>
+    public class R2L_LoginAccountRequestHandler : AMActorRpcHandler<Scene, R2L_LoginAccountRequest, L2R_LoginAccountResponse>
     {
-        // A2L_LoginAccountRequestHandler 登录服务器与账户中心服务器消息处理类，判断账户是否已经登录
+        // R2L_LoginAccountRequestHandler 登录服务器与账户中心服务器消息处理类，判断账户是否已经登录
         protected override async ETTask Run(Scene scene, R2L_LoginAccountRequest request, L2R_LoginAccountResponse response)
         {
             long accountId = request.AccountId;

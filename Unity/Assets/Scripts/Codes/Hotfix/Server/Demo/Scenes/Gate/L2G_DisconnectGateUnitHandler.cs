@@ -19,12 +19,15 @@ namespace ET.Server
                     return;
                 }
                 
+                // 保存游戏数据
+                M2G_UnitDataSave g2LUnitDataSave = (M2G_UnitDataSave)await MessageHelper.CallLocationActor(player.UnitId, new G2M_UnitDataSave());
+                
                 // Gate 网关断开Player
                 scene.GetComponent<GateSessionKeyComponent>().Remove(accountId);
                 
                 // Session 断开
                 Session gateSession = Root.Instance.Get(player.SessionInstanceId) as Session;
-
+                
                 if (gateSession != null && !gateSession.IsDisposed)
                 {
                     gateSession.Send(new R2C_Disconnect() {Error = ErrorCode.ERR_ExtraAccount});
@@ -33,7 +36,7 @@ namespace ET.Server
 
                 player.SessionInstanceId = 0;
 
-                // 玩家下线操作
+                // 玩家下线计时操作
                 player.AddComponent<PlayerOfflineOutTimeComponent>();
 
             }

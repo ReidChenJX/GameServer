@@ -628,6 +628,36 @@ namespace ET
 
 	}
 
+	[ResponseType(nameof(G2C_EnterGame))]
+	[Message(OuterMessage.C2G_EnterGame)]
+	[ProtoContract]
+	public partial class C2G_EnterGame: ProtoObject, IRequest
+	{
+// Client 向 Gate 申请进入游戏Scene
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+	}
+
+	[Message(OuterMessage.G2C_EnterGame)]
+	[ProtoContract]
+	public partial class G2C_EnterGame: ProtoObject, IResponse
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int Error { get; set; }
+
+		[ProtoMember(3)]
+		public string Message { get; set; }
+
+// 自己的UnitId
+		[ProtoMember(4)]
+		public long MyId { get; set; }
+
+	}
+
 	public static class OuterMessage
 	{
 		 public const ushort HttpGetRouterResponse = 10002;
@@ -672,5 +702,7 @@ namespace ET
 		 public const ushort R2C_GetRole = 10041;
 		 public const ushort C2R_CreateRole = 10042;
 		 public const ushort R2C_CreateRole = 10043;
+		 public const ushort C2G_EnterGame = 10044;
+		 public const ushort G2C_EnterGame = 10045;
 	}
 }

@@ -8,9 +8,13 @@ namespace ET.Server
 		{
 			protected override void Destroy(SessionPlayerComponent self)
 			{
-				// 发送断线消息
-				ActorLocationSenderComponent.Instance?.Send(self.PlayerId, new G2M_SessionDisconnect());
-				self.DomainScene().GetComponent<PlayerComponent>()?.Remove(self.PlayerId);
+				// 玩家下线计时操作
+				Player player = self.GetMyPlayer();
+				PlayerOfflineOutTimeComponent playerOfflineOutTimeComponent = player.GetComponent<PlayerOfflineOutTimeComponent>();
+				if (playerOfflineOutTimeComponent == null)
+				{
+					player.AddComponent<PlayerOfflineOutTimeComponent>();
+				}
 			}
 		}
 

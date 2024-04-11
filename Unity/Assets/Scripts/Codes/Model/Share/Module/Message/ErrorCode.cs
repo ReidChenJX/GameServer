@@ -14,6 +14,7 @@ namespace ET
         // 110000 - 200000是抛异常的错误
         // 200001以上不抛异常
         
+        // 登录错误
         public const int ERR_NetWorkError = 200002;             // 网络错误
         public const int ERR_LoginInfoError = 200003;           // 登录信息错误
         public const int ERR_PasswordFormError = 200004;        // 密码格式错误
@@ -27,6 +28,12 @@ namespace ET
         public const int ERR_RoleNameNull = 200010;             // Role Name 字段为空
         public const int ERR_RoleNameSame = 200011;             // Role 重复
         public const int ERR_RoleEmpty = 200012;                // Role 为空
+        
+        // Player 错误
+        public const int ERR_SessionPlayerError = 200013;       // SessionPlayerComponent 及 组件上的 Player 错误
+        public const int ERR_SessionStateErrror = 200014;       // Session 状态错误
+        public const int ERR_ReEnterGameErrorGate = 200015;     // 玩家未登录至游戏服，二次登录失败
+        public const int ERR_ReEnterGameErrorGame = 200016;     // 玩家已登录至游戏服，二次登录/顶号失败
         
         // 未定义错误
         public const int ERR_OERR = 200100;       

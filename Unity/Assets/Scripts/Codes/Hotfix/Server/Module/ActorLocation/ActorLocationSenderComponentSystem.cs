@@ -143,7 +143,7 @@ namespace ET.Server
             {
                 if (actorLocationSender.ActorId == 0)
                 {
-                    actorLocationSender.ActorId = await LocationProxyComponent.Instance.Get(actorLocationSender.Id);
+                    actorLocationSender.ActorId = await LocationProxyComponent.Instance.Get(actorLocationSender.Id, actorLocationSender.DomainZone());
                     if (actorLocationSender.InstanceId != instanceId)
                     {
                         throw new RpcException(ErrorCore.ERR_ActorLocationSenderTimeout2, $"{iActorRequest}");

@@ -343,6 +343,9 @@ namespace ET
 		[ProtoMember(4)]
 		public List<byte[]> Entitys { get; set; }
 
+		[ProtoMember(5)]
+		public int ZoneId { get; set; }
+
 	}
 
 	[Message(InnerMessage.M2M_UnitTransferResponse)]
@@ -418,7 +421,7 @@ namespace ET
 
 	}
 
-	[ResponseType(nameof(G2L_DisconnectGateUnit))]
+	[ResponseType(nameof(L2G_AddLoginRecord))]
 	[Message(InnerMessage.G2L_AddLoginRecord)]
 	[ProtoContract]
 	public partial class G2L_AddLoginRecord: ProtoObject, IActorRequest
@@ -450,20 +453,104 @@ namespace ET
 
 	}
 
-	[ResponseType(nameof(G2C_EnterGame))]
-	[Message(InnerMessage.C2G_EnterGame)]
+	[ResponseType(nameof(M2G_RequestEnterGameState))]
+	[Message(InnerMessage.G2M_RequestEnterGameState)]
 	[ProtoContract]
-	public partial class C2G_EnterGame: ProtoObject, IActorRequest
+	public partial class G2M_RequestEnterGameState: ProtoObject, IActorLocationRequest
 	{
-// Client 向 Gate 申请进入游戏Scene
+// Gate 向 Game 确认角色是否在游戏服
 		[ProtoMember(1)]
 		public int RpcId { get; set; }
 
 	}
 
-	[Message(InnerMessage.G2C_EnterGame)]
+	[Message(InnerMessage.M2G_RequestEnterGameState)]
 	[ProtoContract]
-	public partial class G2C_EnterGame: ProtoObject, IActorResponse
+	public partial class M2G_RequestEnterGameState: ProtoObject, IActorLocationResponse
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int Error { get; set; }
+
+		[ProtoMember(3)]
+		public string Message { get; set; }
+
+	}
+
+	[ResponseType(nameof(M2G_RequestExitGame))]
+	[Message(InnerMessage.G2M_RequestExitGame)]
+	[ProtoContract]
+	public partial class G2M_RequestExitGame: ProtoObject, IActorLocationRequest
+	{
+// Gate 向 Game 角色下线请求
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+	}
+
+	[Message(InnerMessage.M2G_RequestExitGame)]
+	[ProtoContract]
+	public partial class M2G_RequestExitGame: ProtoObject, IActorLocationResponse
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int Error { get; set; }
+
+		[ProtoMember(3)]
+		public string Message { get; set; }
+
+	}
+
+	[ResponseType(nameof(L2G_RemoveLoginRecord))]
+	[Message(InnerMessage.G2L_RemoveLoginRecord)]
+	[ProtoContract]
+	public partial class G2L_RemoveLoginRecord: ProtoObject, IActorRequest
+	{
+// Gate 向 LoginCenter 下线登录的用户
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public long AccountId { get; set; }
+
+		[ProtoMember(3)]
+		public int ZoneId { get; set; }
+
+	}
+
+	[Message(InnerMessage.L2G_RemoveLoginRecord)]
+	[ProtoContract]
+	public partial class L2G_RemoveLoginRecord: ProtoObject, IActorResponse
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int Error { get; set; }
+
+		[ProtoMember(3)]
+		public string Message { get; set; }
+
+	}
+
+	[ResponseType(nameof(M2G_UnitDataSave))]
+	[Message(InnerMessage.G2M_UnitDataSave)]
+	[ProtoContract]
+	public partial class G2M_UnitDataSave: ProtoObject, IActorLocationRequest
+	{
+// 向 Map 保存角色数据
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+	}
+
+	[Message(InnerMessage.M2G_UnitDataSave)]
+	[ProtoContract]
+	public partial class M2G_UnitDataSave: ProtoObject, IActorLocationResponse
 	{
 		[ProtoMember(1)]
 		public int RpcId { get; set; }
@@ -507,7 +594,13 @@ namespace ET
 		 public const ushort G2L_DisconnectGateUnit = 20028;
 		 public const ushort G2L_AddLoginRecord = 20029;
 		 public const ushort L2G_AddLoginRecord = 20030;
-		 public const ushort C2G_EnterGame = 20031;
-		 public const ushort G2C_EnterGame = 20032;
+		 public const ushort G2M_RequestEnterGameState = 20031;
+		 public const ushort M2G_RequestEnterGameState = 20032;
+		 public const ushort G2M_RequestExitGame = 20033;
+		 public const ushort M2G_RequestExitGame = 20034;
+		 public const ushort G2L_RemoveLoginRecord = 20035;
+		 public const ushort L2G_RemoveLoginRecord = 20036;
+		 public const ushort G2M_UnitDataSave = 20037;
+		 public const ushort M2G_UnitDataSave = 20038;
 	}
 }

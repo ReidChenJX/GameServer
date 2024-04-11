@@ -21,7 +21,8 @@ namespace ET.Client
 
         public static async ETTask EnterMap(this DlgLobby self)
         {
-            await EnterMapHelper.EnterMapAsync(self.ClientScene());
+            // await EnterMapHelper.EnterMapAsync(self.ClientScene());
+            await LoginHelper.EnterGame(self.ClientScene());
             self.ClientScene().GetComponent<UIComponent>().HideWindow(WindowID.WindowID_Lobby);
             self.ClientScene().GetComponent<UIComponent>().HideWindow(WindowID.WindowID_UserName);
         }

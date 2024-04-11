@@ -3,7 +3,7 @@ using System;
 namespace ET.Server
 {
     [ActorMessageHandler(SceneType.LoginCenter)]
-    public class G2L_AddLoginRecordHandler: AMActorRpcHandler<Scene , G2L_AddLoginRecord, L2G_AddLoginRecord>
+    public class G2L_AddLoginRecordHandler: AMActorRpcHandler<Scene, G2L_AddLoginRecord, L2G_AddLoginRecord>
     {
         protected override async ETTask Run(Scene scene, G2L_AddLoginRecord request, L2G_AddLoginRecord response)
         {

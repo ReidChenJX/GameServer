@@ -21,8 +21,8 @@ namespace ET.Server
             self.Dispose();
         }
 
-        public static async ETTask KickPlayer(Player player)
-        {
+        public static async ETTask KickPlayer(Player player, bool isException = false)      // isException 是否异常下线
+        {       
             if (player == null || player.IsDisposed)
             {
                 return;
@@ -37,18 +37,29 @@ namespace ET.Server
                     return;
                 }
 
-                switch (player.PlayerState)
+                if (!isException)
                 {
-                    case PlayerState.DisConnect:
-                        break;
-                    case PlayerState.Gate:
-                        break;
-                    case PlayerState.Game:
-                        // 执行Game Scene 的角色下线逻辑
-                        
-                        break;
+                    switch (player.PlayerState)
+                    {
+                        case PlayerState.DisConnect:
+                            break;
+                        case PlayerState.Gate:
+                            break;
+                        case PlayerState.Game:
+                            // 通知游戏服下线Unit 对象
+                            M2G_RequestExitGame m2GRequestExitGame =
+                                    (M2G_RequestExitGame)await MessageHelper.CallLocationActor(player.UnitId, new G2M_RequestExitGame());
+                            
+                            // 移除登录信息 LoginCenter
+                            long LoginCenterConfigSceneId = StartSceneConfigCategory.Instance.LoginCenterConfig.InstanceId;
+                            L2G_RemoveLoginRecord g2LRemoveLoginRecord = (L2G_RemoveLoginRecord)await MessageHelper.CallActor(
+                                LoginCenterConfigSceneId, new G2L_RemoveLoginRecord() { AccountId = player.AccountId, ZoneId = player.DomainZone() });
+                            
+                            break;
+                    }
                 }
-
+                
+                // 释放Player
                 player.PlayerState = PlayerState.DisConnect;
                 player.DomainScene().GetComponent<PlayerComponent>()?.Remove(player.AccountId);
                 player?.Dispose();
