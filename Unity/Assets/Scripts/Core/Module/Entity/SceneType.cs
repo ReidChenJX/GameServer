@@ -17,6 +17,7 @@
 		BenchmarkServer = 11,
 		Benchmark = 12,
 		LoginCenter = 13,
+		UnitCache = 14,
 
 		// 客户端Model层
 		Client = 31,

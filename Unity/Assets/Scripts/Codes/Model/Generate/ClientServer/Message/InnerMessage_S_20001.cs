@@ -563,6 +563,109 @@ namespace ET
 
 	}
 
+// -----------玩家缓存相关-------------------
+	[ResponseType(nameof(UnitCache2Other_AddOrUpdateUnit))]
+	[Message(InnerMessage.Other2UnitCache_AddOrUpdateUnit)]
+	[ProtoContract]
+	public partial class Other2UnitCache_AddOrUpdateUnit: ProtoObject, IActorRequest
+	{
+// 增加或者更新UnitCache
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public long UnitId { get; set; }
+
+		[ProtoMember(3)]
+		public List<string> EntityTypes { get; set; }
+
+		[ProtoMember(4)]
+		public List<byte[]> EntityBytes { get; set; }
+
+	}
+
+	[Message(InnerMessage.UnitCache2Other_AddOrUpdateUnit)]
+	[ProtoContract]
+	public partial class UnitCache2Other_AddOrUpdateUnit: ProtoObject, IActorResponse
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int Error { get; set; }
+
+		[ProtoMember(3)]
+		public string Message { get; set; }
+
+	}
+
+	[ResponseType(nameof(UnitCache2Other_GetUnit))]
+	[Message(InnerMessage.Other2UnitCache_GetUnit)]
+	[ProtoContract]
+	public partial class Other2UnitCache_GetUnit: ProtoObject, IActorRequest
+	{
+// 获取Unit缓存
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public long UnitId { get; set; }
+
+		[ProtoMember(3)]
+		public List<string> ComponentNameList { get; set; }
+
+	}
+
+	[Message(InnerMessage.UnitCache2Other_GetUnit)]
+	[ProtoContract]
+	public partial class UnitCache2Other_GetUnit: ProtoObject, IActorResponse
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int Error { get; set; }
+
+		[ProtoMember(3)]
+		public string Message { get; set; }
+
+		[ProtoMember(4)]
+		public List<Entity> EntityList { get; set; }
+
+		[ProtoMember(5)]
+		public List<string> ComponentNameList { get; set; }
+
+	}
+
+	[ResponseType(nameof(UnitCache2Other_DeleteUnit))]
+	[Message(InnerMessage.Other2UnitCache_DeleteUnit)]
+	[ProtoContract]
+	public partial class Other2UnitCache_DeleteUnit: ProtoObject, IActorRequest
+	{
+// 删除Unit缓存
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public long UnitId { get; set; }
+
+	}
+
+	[Message(InnerMessage.UnitCache2Other_DeleteUnit)]
+	[ProtoContract]
+	public partial class UnitCache2Other_DeleteUnit: ProtoObject, IActorResponse
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int Error { get; set; }
+
+		[ProtoMember(3)]
+		public string Message { get; set; }
+
+	}
+
 	public static class InnerMessage
 	{
 		 public const ushort ObjectQueryRequest = 20002;
@@ -602,5 +705,11 @@ namespace ET
 		 public const ushort L2G_RemoveLoginRecord = 20036;
 		 public const ushort G2M_UnitDataSave = 20037;
 		 public const ushort M2G_UnitDataSave = 20038;
+		 public const ushort Other2UnitCache_AddOrUpdateUnit = 20039;
+		 public const ushort UnitCache2Other_AddOrUpdateUnit = 20040;
+		 public const ushort Other2UnitCache_GetUnit = 20041;
+		 public const ushort UnitCache2Other_GetUnit = 20042;
+		 public const ushort Other2UnitCache_DeleteUnit = 20043;
+		 public const ushort UnitCache2Other_DeleteUnit = 20044;
 	}
 }

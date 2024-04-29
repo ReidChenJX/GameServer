@@ -6,5 +6,7 @@
         // PlayerId = AccountId
         public long PlayerId { get; set; }
         public long PlayerInstanceId { get; set; }
+
+        public bool isLoginAgain { get; set; } = false;
     }
 }

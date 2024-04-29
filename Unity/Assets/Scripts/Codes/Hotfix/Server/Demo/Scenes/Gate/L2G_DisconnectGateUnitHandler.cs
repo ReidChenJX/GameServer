@@ -30,6 +30,11 @@ namespace ET.Server
                 
                 if (gateSession != null && !gateSession.IsDisposed)
                 {
+                    if (gateSession.GetComponent<SessionPlayerComponent>() != null)
+                    {
+                        gateSession.GetComponent<SessionPlayerComponent>().isLoginAgain = true;
+                    }
+                    
                     gateSession.Send(new R2C_Disconnect() {Error = ErrorCode.ERR_ExtraAccount});
                     gateSession?.Disconnect().Coroutine();
                 }
